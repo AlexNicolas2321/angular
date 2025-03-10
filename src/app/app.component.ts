@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from './services/data.service';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';  // Importa FormsModule aquí
 import { Song } from './models/song.model';
 
 // Asegúrate de tener la estructura de Playlist
@@ -13,7 +14,7 @@ interface Playlist {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule], // Agrega FormsModule aquí
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -22,6 +23,7 @@ export class AppComponent implements OnInit {
   selectedPlaylist: Playlist | null = null;  // Playlist seleccionada
   currentSong: Song | null = null;  // Canción actualmente seleccionada
   audioSource: string = '';  // Fuente de la canción para el reproductor
+  randomPlaylistSize: number = 5;  // Tamaño por defecto para la playlist aleatoria
 
   constructor(private dataService: DataService) { }
 
@@ -97,5 +99,30 @@ export class AppComponent implements OnInit {
         this.playSong(this.currentSong);  // Llama al método playSong para iniciar la reproducción
       }
     }
+  }
+
+  // Método para crear una playlist aleatoria
+  createRandomPlaylist(): void {
+    const availableSongs = this.getAllSongs();  // Aquí necesitas un método para obtener todas las canciones
+    const randomSongs = this.getRandomSongs(availableSongs, this.randomPlaylistSize);
+
+    const newPlaylist: Playlist = {
+      id: this.playlists.length + 1,
+      name: `Playlist Aleatoria ${this.playlists.length + 1}`,
+      songs: randomSongs
+    };
+
+    this.playlists.push(newPlaylist);  // Agrega la nueva playlist aleatoria a la lista de playlists
+  }
+
+  // Método para obtener todas las canciones de todas las playlists (o puedes crear una lista global de canciones)
+  getAllSongs(): Song[] {
+    return this.playlists.flatMap(playlist => playlist.songs);
+  }
+
+  // Método para seleccionar canciones aleatorias
+  getRandomSongs(songs: Song[], num: number): Song[] {
+    const shuffled = songs.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, num);
   }
 }

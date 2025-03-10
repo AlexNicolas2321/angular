@@ -26,4 +26,9 @@
   </div>
 </div>
 
-<app-statistics></app-statistics> <!-- Aquí se incluye el componente de estadísticas -->
+<!-- Crear lista de reproducción aleatoria -->
+<div class="random-playlist">
+  <h3>Crear lista de reproducción aleatoria</h3>
+  <input type="number" [(ngModel)]="randomPlaylistSize" placeholder="Número de canciones" />
+  <button (click)="createRandomPlaylist()">Crear Playlist Aleatoria</button>
+</div>
