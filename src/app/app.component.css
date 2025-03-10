@@ -1,0 +1,79 @@
+/* Estilo general del contenedor */
+:host {
+    display: block;
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f5f5f5;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  
+  /* Estilo para los títulos */
+  h3, h4 {
+    margin: 10px 0;
+  }
+  
+  /* Lista de playlists */
+  div.playlists {
+    margin-bottom: 20px;
+  }
+  
+  div.playlists h3 {
+    cursor: pointer;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  div.playlists h3:hover {
+    background-color: #e0e0e0;
+  }
+  
+  /* Lista de canciones */
+  div.songs ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  div.songs li {
+    padding: 8px;
+    margin-bottom: 5px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  div.songs li:hover {
+    background-color: #e0e0e0;
+  }
+  
+  /* Contenedor del reproductor */
+  div.player {
+    margin-top: 30px;
+    padding: 15px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  div.player audio {
+    margin-top: 10px;
+  }
+  
+  div.player button {
+    margin: 5px;
+    padding: 8px 16px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  div.player button:hover {
+    background-color: #45a049;
+  }
+  
