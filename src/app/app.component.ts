@@ -25,6 +25,7 @@ export class AppComponent implements OnInit {
   audioSource: string = '';  // Fuente de la canción para el reproductor
   randomPlaylistSize: number = 5;  // Tamaño por defecto para la playlist aleatoria
   selectedSongs: Song[] = [];  // Aquí guardas las canciones marcadas
+  playlistsCopyOrigin: Playlist[] = [];  // Lista de playlists
 
   constructor(private dataService: DataService) { }
 
@@ -33,6 +34,9 @@ export class AppComponent implements OnInit {
       next: (data) => {
         console.log("Datos recibidos:", data);
         this.playlists = data.playList; // <- asegurarte que es playList
+         // Hacemos una copia profunda
+      this.playlistsCopyOrigin = JSON.parse(JSON.stringify(this.playlists));
+      console.log("Copia profunda de Playlists:", this.playlistsCopyOrigin);
       },
       error: (error) => {
         console.error("Error en la llamada HTTP", error);
@@ -154,6 +158,8 @@ playSong(song: Song): void {
   
     alert('¡Playlist personalizada creada!');
   }
+
+  
   toggleSongSelection(song: Song, event: Event): void {
     const inputElement = event.target as HTMLInputElement;  // Casting explícito
     const isChecked = inputElement.checked;  // Acceder a la propiedad checked

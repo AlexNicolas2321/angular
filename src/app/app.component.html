@@ -44,11 +44,14 @@
 <!--crear usuario lista  canciones-->
 <h2>Selecciona canciones para tu playlist personalizada</h2>
 
-<div *ngFor="let song of getAllSongs()">
-  <input type="checkbox"
-  (change)="toggleSongSelection(song, $event)">
-
-  {{ song.title }}
+<!-- Iterar sobre todas las canciones de playlistsCopyOrigin -->
+<div *ngFor="let playlist of playlistsCopyOrigin">
+  <div *ngFor="let song of playlist.songs">
+    <input type="checkbox" 
+           (change)="toggleSongSelection(song, $event)">
+    {{ song.title }}
+  </div>
 </div>
 
+<!-- Botón para crear la playlist personalizada -->
 <button (click)="createCustomPlaylist()">Crear Playlist Personalizada</button>
