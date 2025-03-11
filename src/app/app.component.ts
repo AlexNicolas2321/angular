@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { DataService } from './services/data.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';  // Importa FormsModule aquí
@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
   selectedSongs: Song[] = [];  // Aquí guardas las canciones marcadas
   playlistsCopyOrigin: Playlist[] = [];  // Lista de playlists
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.dataService.getPlaylistSongs().subscribe({
@@ -55,28 +55,38 @@ export class AppComponent implements OnInit {
     });
   }
 
-  // Actualiza los likes de las canciones
   updateLikes(likesData: any[]): void {
-    // Recorre todas las playlists y actualiza los likes de las canciones
     this.playlists.forEach((playlist) => {
       playlist.songs.forEach((song) => {
         const songLike = likesData.find((like) => like.id === song.id);
         if (songLike) {
-          song.likes = songLike.likes;  // Asigna el número de likes desde la respuesta
+          song.likes = songLike.likes;  // Actualiza los likes
         }
       });
     });
+
+    // Forzar la actualización de la vista
+    this.cdr.detectChanges();  // Esto asegura que Angular detecte el cambio y actualice la vista
   }
 
-  // Método para actualizar el like de una canción
   likeSong(song: Song): void {
+    if (song.likes === undefined) {
+      song.likes = 0;
+    }
+    
+    song.likes += 1;  // Aumentamos los likes en el cliente
+
+    // Llamada al servidor para actualizar los likes
     this.dataService.likeSong(song.id).subscribe({
       next: (response) => {
-        console.log("Likes actualizados:", response);
-        song.likes = response.likes; // Actualiza los likes de la canción en el frontend
+        console.log("Likes actualizados en el servidor:", response);
+        song.likes = response.likes;  // Aseguramos que el servidor haya devuelto el nuevo número de likes
+        this.cdr.detectChanges();  // Forzamos que Angular actualice la vista
       },
       error: (error) => {
         console.error("Error al dar like a la canción", error);
+        song.likes -= 1;  // Revertimos si hay un error en el servidor
+        this.cdr.detectChanges();  // Forzamos que Angular actualice la vista
       }
     });
   }
