@@ -69,27 +69,28 @@ export class AppComponent implements OnInit {
     this.cdr.detectChanges();  // Esto asegura que Angular detecte el cambio y actualice la vista
   }
 
-  likeSong(song: Song): void {
-    if (song.likes === undefined) {
-      song.likes = 0;
-    }
-    
-    song.likes += 1;  // Aumentamos los likes en el cliente
-
-    // Llamada al servidor para actualizar los likes
-    this.dataService.likeSong(song.id).subscribe({
-      next: (response) => {
-        console.log("Likes actualizados en el servidor:", response);
-        song.likes = response.likes;  // Aseguramos que el servidor haya devuelto el nuevo número de likes
-        this.cdr.detectChanges();  // Forzamos que Angular actualice la vista
-      },
-      error: (error) => {
-        console.error("Error al dar like a la canción", error);
-        song.likes -= 1;  // Revertimos si hay un error en el servidor
-        this.cdr.detectChanges();  // Forzamos que Angular actualice la vista
-      }
-    });
+likeSong(song: Song): void {
+  if (song.likes === undefined) {
+    song.likes = 0;
   }
+  
+  song.likes += 1;  // Aumentamos los likes en el cliente
+
+  // Llamada al servidor para actualizar los likes
+  this.dataService.likeSong(song.id).subscribe({
+    next: (response) => {
+      console.log("Likes actualizados en el servidor:", response);
+      song.likes = response.likes;  // Aseguramos que el servidor haya devuelto el nuevo número de likes
+      this.cdr.detectChanges();  // Forzamos que Angular actualice la vista
+    },
+    error: (error) => {
+      console.error("Error al dar like a la canción", error);
+      song.likes -= 1;  // Revertimos si hay un error en el servidor
+      this.cdr.detectChanges();  // Forzamos que Angular actualice la vista
+    }
+  });
+}
+
 
   // Método para seleccionar una playlist
   selectPlaylist(playlist: Playlist): void {

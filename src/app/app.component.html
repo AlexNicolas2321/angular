@@ -12,7 +12,7 @@
   <ul>
     <li *ngFor="let song of selectedPlaylist.songs" (click)="playSong(song)">
       {{ song.title }} - Likes: {{ song.likes }} <!-- Mostrar likes aquí -->
-      <button (click)="likeSong(song)">Like</button> <!-- Botón de like -->
+            <button (click)="likeSong(song)">Like</button> <!-- Botón de like -->
 
     </li>
   </ul>
