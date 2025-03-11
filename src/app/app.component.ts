@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
   currentSong: Song | null = null;  // Canción actualmente seleccionada
   audioSource: string = '';  // Fuente de la canción para el reproductor
   randomPlaylistSize: number = 5;  // Tamaño por defecto para la playlist aleatoria
+  selectedSongs: Song[] = [];  // Aquí guardas las canciones marcadas
 
   constructor(private dataService: DataService) { }
 
@@ -133,4 +134,49 @@ playSong(song: Song): void {
     const shuffled = songs.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, num);
   }
+
+  createCustomPlaylist(): void {
+    if (this.selectedSongs.length === 0) {
+      alert('Debes seleccionar al menos una canción para crear la playlist');
+      return;
+    }
+  
+    const newPlaylist: Playlist = {
+      id: this.playlists.length + 1,
+      name: `Playlist Personalizada ${this.playlists.length + 1}`,
+      songs: [...this.selectedSongs]  // Copia las canciones seleccionadas
+    };
+  
+    this.playlists.push(newPlaylist);  // Añade la nueva playlist a la lista existente
+  
+    // Limpiar selección si quieres
+    this.selectedSongs = [];
+  
+    alert('¡Playlist personalizada creada!');
+  }
+  toggleSongSelection(song: Song, event: Event): void {
+    const inputElement = event.target as HTMLInputElement;  // Casting explícito
+    const isChecked = inputElement.checked;  // Acceder a la propiedad checked
+  
+    if (isChecked) {
+      if (!this.selectedSongs.includes(song)) {
+        this.selectedSongs.push(song);
+      }
+    } else {
+      this.selectedSongs = this.selectedSongs.filter(s => s.id !== song.id);
+    }
+  }
+  
+
+
+
+
+
+
+
+
+
+
+
+
 }

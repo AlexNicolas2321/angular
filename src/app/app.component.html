@@ -39,3 +39,16 @@
   <input type="number" [(ngModel)]="randomPlaylistSize" placeholder="Número de canciones" />
   <button (click)="createRandomPlaylist()">Crear Playlist Aleatoria</button>
 </div>
+
+
+<!--crear usuario lista  canciones-->
+<h2>Selecciona canciones para tu playlist personalizada</h2>
+
+<div *ngFor="let song of getAllSongs()">
+  <input type="checkbox"
+  (change)="toggleSongSelection(song, $event)">
+
+  {{ song.title }}
+</div>
+
+<button (click)="createCustomPlaylist()">Crear Playlist Personalizada</button>
