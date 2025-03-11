@@ -19,7 +19,14 @@
 <!-- Reproductor de audio -->
 <div class="player" *ngIf="currentSong">
   <h3>Reproduciendo: {{ currentSong.title }}</h3>
-  <audio id="audioPlayer" controls [src]="audioSource"></audio>
+
+  <!-- Agregamos el evento (ended)="nextSong()" -->
+  <audio id="audioPlayer"
+         controls
+         [src]="audioSource"
+         (ended)="nextSong()"> <!-- Esto hace que avance a la siguiente canción -->
+  </audio>
+
   <div>
     <button (click)="previousSong()">Anterior</button>
     <button (click)="nextSong()">Siguiente</button>

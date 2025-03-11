@@ -40,44 +40,52 @@ export class AppComponent implements OnInit {
   }
 
   // Método para seleccionar una playlist
-  selectPlaylist(playlist: Playlist): void {
-    console.log("Playlist seleccionada:", playlist);
-    this.selectedPlaylist = playlist;  // Establece la playlist seleccionada
-    this.currentSong = null;  // Resetea la canción actual
-    this.audioSource = '';  // Resetea la fuente de la canción
-  }
+// Método para seleccionar una playlist y empezar a reproducir la primera canción automáticamente
+selectPlaylist(playlist: Playlist): void {
+  console.log("Playlist seleccionada:", playlist);
 
-  // Método para manejar el clic en una canción
-  playSong(song: Song): void {
-    console.log("Reproduciendo canción:", song);
-    this.currentSong = song;  // Establece la canción seleccionada
-    this.audioSource = `http://localhost:8000/mp3/${song.fileTitle}.mp3`;  // Establece la fuente de la canción
-    
-    // Reproduce la canción automáticamente
+  this.selectedPlaylist = playlist;
+
+  if (playlist.songs.length > 0) {
+    const firstSong = playlist.songs[0];
+    this.playSong(firstSong);  // Aquí empieza la reproducción automáticamente
+  } else {
+    this.currentSong = null;
+    this.audioSource = '';
+  }
+}
+
+
+playSong(song: Song): void {
+  console.log("Reproduciendo canción:", song);
+  this.currentSong = song;
+  this.audioSource = `http://localhost:8000/mp3/${song.fileTitle}.mp3`;
+
+  // Espera un poco para asegurar que el audio se recarga bien
+  setTimeout(() => {
     const audio = document.getElementById('audioPlayer') as HTMLAudioElement;
     if (audio) {
-      audio.load();  // Recarga el reproductor con la nueva fuente
-      audio.play();  // Inicia la reproducción
+      audio.load();  // Recarga el elemento de audio
+      audio.play();  // Reproduce
     }
-  }
+  }, 0);
+}
 
-  // Método para pasar a la siguiente canción
   nextSong(): void {
     if (this.selectedPlaylist && this.selectedPlaylist.songs.length > 0) {
-      const currentIndex = this.selectedPlaylist.songs.findIndex(song => song.id === this.currentSong?.id);
-
-      // Si no es la última canción, pasa a la siguiente, si no vuelve al principio
-      if (currentIndex !== -1) {
-        if (currentIndex < this.selectedPlaylist.songs.length - 1) {
-          this.currentSong = this.selectedPlaylist.songs[currentIndex + 1];
-        } else {
-          this.currentSong = this.selectedPlaylist.songs[0]; // Volver a la primera canción
-        }
-        this.audioSource = `http://localhost:8000/mp3/${this.currentSong.fileTitle}.mp3`;
-        
-        // Reproduce la siguiente canción automáticamente
-        this.playSong(this.currentSong);  // Llama al método playSong para iniciar la reproducción
+      const currentIndex = this.selectedPlaylist.songs.findIndex(
+        song => song.id === this.currentSong?.id
+      );
+  
+      let nextIndex = currentIndex + 1;
+  
+      // Si es la última canción, vuelve al principio
+      if (nextIndex >= this.selectedPlaylist.songs.length) {
+        nextIndex = 0;
       }
+  
+      const nextSong = this.selectedPlaylist.songs[nextIndex];
+      this.playSong(nextSong);
     }
   }
 
