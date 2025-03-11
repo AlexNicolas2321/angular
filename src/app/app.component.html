@@ -11,7 +11,7 @@
   <h4>Canciones en la playlist: {{ selectedPlaylist.name }}</h4>
   <ul>
     <li *ngFor="let song of selectedPlaylist.songs" (click)="playSong(song)">
-      {{ song.title }}
+      {{ song.title }} - Likes: {{ song.likes }} <!-- Mostrar likes aquí -->
     </li>
   </ul>
 </div>
@@ -40,8 +40,7 @@
   <button (click)="createRandomPlaylist()">Crear Playlist Aleatoria</button>
 </div>
 
-
-<!--crear usuario lista  canciones-->
+<!-- Crear playlist personalizada -->
 <h2>Selecciona canciones para tu playlist personalizada</h2>
 
 <!-- Iterar sobre todas las canciones de playlistsCopyOrigin -->
@@ -49,7 +48,7 @@
   <div *ngFor="let song of playlist.songs">
     <input type="checkbox" 
            (change)="toggleSongSelection(song, $event)">
-    {{ song.title }}
+    {{ song.title }} <!-- Mostrar likes aquí -->
   </div>
 </div>
 

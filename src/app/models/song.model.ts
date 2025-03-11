@@ -1,8 +1,7 @@
-// src/app/models/song.model.ts
-
 export interface Song {
-    id: number;
-    fileTitle: string;
-    title: string;
-  }
-  
+  id: number;
+  title: string;
+  artist: string;
+  fileTitle: string;
+  likes?: number;  // Añadir la propiedad likes
+}
