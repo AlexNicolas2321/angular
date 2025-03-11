@@ -64,7 +64,10 @@ export class AppComponent implements OnInit {
         }
       });
     });
-
+  
+    // Sincroniza los likes con playlistsCopyOrigin
+    this.playlistsCopyOrigin = JSON.parse(JSON.stringify(this.playlists));
+  
     // Forzar la actualización de la vista
     this.cdr.detectChanges();  // Esto asegura que Angular detecte el cambio y actualice la vista
   }
@@ -159,19 +162,26 @@ likeSong(song: Song): void {
     }
   }
 
-  // Método para crear una playlist aleatoria
-  createRandomPlaylist(): void {
-    const availableSongs = this.getAllSongs();  // Aquí necesitas un método para obtener todas las canciones
-    const randomSongs = this.getRandomSongs(availableSongs, this.randomPlaylistSize);
+ // Método para crear una playlist aleatoria
+createRandomPlaylist(): void {
+  const availableSongs = this.getAllSongs();  // Aquí necesitas un método para obtener todas las canciones
+  const randomSongs = this.getRandomSongs(availableSongs, this.randomPlaylistSize);
 
-    const newPlaylist: Playlist = {
-      id: this.playlists.length + 1,
-      name: `Playlist Aleatoria ${this.playlists.length + 1}`,
-      songs: randomSongs
-    };
+  // Crear una nueva playlist con las canciones aleatorias
+  const newPlaylist: Playlist = {
+    id: this.playlists.length + 1,
+    name: `Playlist Aleatoria ${this.playlists.length + 1}`,
+    songs: randomSongs.map(song => {
+      // Aquí nos aseguramos de que las canciones incluyan los likes actuales
+      const songWithLikes = { ...song, likes: song.likes || 0 };  // Aseguramos que tenga la propiedad 'likes'
+      return songWithLikes;
+    })
+  };
 
-    this.playlists.push(newPlaylist);  // Agrega la nueva playlist aleatoria a la lista de playlists
-  }
+  this.playlists.push(newPlaylist);  // Agrega la nueva playlist aleatoria a la lista de playlists
+  console.log("Nueva Playlist Aleatoria creada:", newPlaylist);
+}
+
 
   // Método para obtener todas las canciones de todas las playlists (o puedes crear una lista global de canciones)
   getAllSongs(): Song[] {
@@ -183,27 +193,34 @@ likeSong(song: Song): void {
     const shuffled = songs.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, num);
   }
+  
+  
 
   createCustomPlaylist(): void {
     if (this.selectedSongs.length === 0) {
       alert('Debes seleccionar al menos una canción para crear la playlist');
       return;
     }
-
+  
+    // Aseguramos que cada canción seleccionada tenga sus likes correctamente asignados
     const newPlaylist: Playlist = {
       id: this.playlists.length + 1,
       name: `Playlist Personalizada ${this.playlists.length + 1}`,
-      songs: [...this.selectedSongs]  // Copia las canciones seleccionadas
+      songs: this.selectedSongs.map(song => {
+        // Si la canción ya tiene likes, los mantenemos; si no, los inicializamos a 0
+        const songWithLikes = { ...song, likes: song.likes || 0 };
+        return songWithLikes;
+      })
     };
-
+  
     this.playlists.push(newPlaylist);  // Añade la nueva playlist a la lista existente
-
+  
     // Limpiar selección si quieres
     this.selectedSongs = [];
-
+  
     alert('¡Playlist personalizada creada!');
   }
-
+  
   toggleSongSelection(song: Song, event: Event): void {
     const inputElement = event.target as HTMLInputElement;  // Casting explícito
     const isChecked = inputElement.checked;  // Acceder a la propiedad checked

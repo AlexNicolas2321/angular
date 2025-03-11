@@ -1,1 +1,141 @@
-/* You can add global styles to this file, and also import other style files */
+/* General */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e3f2fd;  /* Fondo azul muy suave */
+    color: #1c2331; /* Texto oscuro para contrastar */
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Playlists */
+  .playlists {
+    margin: 20px;
+    padding: 15px;
+    background-color: #90caf9; /* Azul claro para el fondo de las playlists */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera para dar profundidad */
+  }
+  
+  .playlists h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #1e3c72; /* Azul oscuro para el título */
+  }
+  
+  .playlists h3 {
+    font-size: 20px;
+    cursor: pointer;
+    margin: 12px 0;
+    padding: 10px;
+    background-color: #42a5f5; /* Azul más intenso */
+    border-radius: 6px;
+    transition: background-color 0.3s;
+  }
+  
+  .playlists h3:hover {
+    background-color: #1e88e5; /* Azul más oscuro cuando pasas el mouse */
+  }
+  
+  /* Canciones en la playlist */
+  .songs {
+    margin: 20px;
+    padding: 15px;
+    background-color: #bbdefb; /* Azul pastel para las canciones */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .songs h4 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #1e3c72; /* Azul oscuro para los títulos */
+  }
+  
+  .songs ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .songs li {
+    font-size: 18px;
+    margin: 12px 0;
+    background-color: #64b5f6; /* Azul suave para los elementos de la lista */
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .songs li:hover {
+    background-color: #1e88e5; /* Azul más oscuro al pasar el mouse */
+  }
+  
+  button {
+    background-color: #1e88e5; /* Azul para el botón */
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #1976d2; /* Azul más oscuro al hacer hover */
+  }
+  
+  input[type="number"] {
+    padding: 5px;
+    font-size: 16px;
+    margin-right: 12px;
+    border-radius: 5px;
+    border: 1px solid #42a5f5; /* Borde azul claro */
+  }
+  
+  /* Reproductor de audio */
+  .player {
+    margin: 20px;
+    padding: 20px;
+    background-color: #90caf9; /* Azul claro para el reproductor */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .player h3 {
+    font-size: 24px;
+    color: #1e3c72; /* Azul oscuro para el título */
+  }
+  
+  audio {
+    width: 100%;
+    margin-top: 15px;
+    border-radius: 5px;
+  }
+  
+  .player div {
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  /* Playlist aleatoria y personalizada */
+  .random-playlist {
+    margin: 20px;
+    padding: 20px;
+    background-color: #90caf9; /* Azul claro para la sección de playlists aleatorias */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .random-playlist h3 {
+    font-size: 22px;
+    color: #1e3c72; /* Azul oscuro para el título */
+  }
+  
+  input[type="checkbox"] {
+    margin-right: 12px;
+  }
+  
